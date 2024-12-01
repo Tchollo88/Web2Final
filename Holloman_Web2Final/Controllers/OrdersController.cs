@@ -12,54 +12,54 @@ namespace Holloman_Web2Final.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly Holloman_Web2FinalDb _context;
 
-        public CustomersController(Holloman_Web2FinalDb context)
+        public OrdersController(Holloman_Web2FinalDb context)
         {
             _context = context;
         }
 
-        // GET: api/Customers
+        // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomer()
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrder()
         {
-            return await _context.Customer.Select(p => new Customer
+            //return await _context.Order.ToListAsync();
+            return await _context.Order.Select(p => new Order
             {
+                OrderId = p.OrderId,
+                ProductId = p.ProductId,
                 CustomerId = p.CustomerId,
-                FirstName = p.FirstName,
-                LastName = p.LastName,
-                PhoneNumber = p.PhoneNumber,
-                Email = p.Email
+                OrderDate = DateTime.Now,
             }).ToListAsync();
         }
 
-        // GET: api/Customers/5
+        // GET: api/Orders/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<Order>> GetOrder(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
+            var order = await _context.Order.FindAsync(id);
 
-            if (customer == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return customer;
+            return order;
         }
 
-        // PUT: api/Customers/5
+        // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutOrder(int id, Order order)
         {
-            if (id != customer.CustomerId)
+            if (id != order.OrderId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
+            _context.Entry(order).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace Holloman_Web2Final.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CustomerExists(id))
+                if (!OrderExists(id))
                 {
                     return NotFound();
                 }
@@ -80,36 +80,36 @@ namespace Holloman_Web2Final.Controllers
             return NoContent();
         }
 
-        // POST: api/Customers
+        // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Order>> PostOrder(Order order)
         {
-            _context.Customer.Add(customer);
+            _context.Order.Add(order);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
+            return CreatedAtAction("GetOrder", new { id = order.OrderId }, order);
         }
 
-        // DELETE: api/Customers/5
+        // DELETE: api/Orders/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id)
+        public async Task<IActionResult> DeleteOrder(int id)
         {
-            var customer = await _context.Customer.FindAsync(id);
-            if (customer == null)
+            var order = await _context.Order.FindAsync(id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            _context.Customer.Remove(customer);
+            _context.Order.Remove(order);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool CustomerExists(int id)
+        private bool OrderExists(int id)
         {
-            return _context.Customer.Any(e => e.CustomerId == id);
+            return _context.Order.Any(e => e.OrderId == id);
         }
     }
 }

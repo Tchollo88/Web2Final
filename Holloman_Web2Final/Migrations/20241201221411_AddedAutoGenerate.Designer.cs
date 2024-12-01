@@ -4,6 +4,7 @@ using Holloman_Web2Final.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Holloman_Web2Final.Migrations
 {
     [DbContext(typeof(Holloman_Web2FinalDb))]
-    partial class Holloman_Web2FinalDbModelSnapshot : ModelSnapshot
+    [Migration("20241201221411_AddedAutoGenerate")]
+    partial class AddedAutoGenerate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
